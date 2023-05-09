@@ -17,6 +17,7 @@
 
 package org.apache.zeppelin.interpreter.remote;
 
+import com.google.gson.Gson;
 import org.apache.thrift.TException;
 import org.apache.zeppelin.interpreter.Interpreter;
 import org.apache.zeppelin.interpreter.InterpreterContext;
@@ -96,6 +97,62 @@ public class RemoteInterpreterServerTest {
     assertEquals(false, server.isRunning());
     assertEquals(false, RemoteInterpreterUtils.checkIfRemoteEndpointAccessible("localhost",
         server.getPort()));
+  }
+
+  @Test
+  public void testJdbcInterpreter() throws Exception {
+    final RemoteInterpreterServer server = new RemoteInterpreterServer("localhost",
+            RemoteInterpreterUtils.findRandomAvailablePortOnAllLocalInterfaces(), ":", "groupId", true);
+    server.init(new HashMap<>());
+    server.intpEventClient = mock(RemoteInterpreterEventClient.class);
+
+    Map<String, String> intpProperties = new HashMap<>();
+    intpProperties.put("property_1", "value_1");
+    intpProperties.put("zeppelin.interpreter.localRepo", "/tmp");
+
+    // create Test1Interpreter in session_1
+    server.createInterpreter("group_1", "session_1", Test1Interpreter.class.getName(),
+            intpProperties, "user_1");
+    Test1Interpreter interpreter1 = (Test1Interpreter)
+            ((LazyOpenInterpreter) server.getInterpreterGroup().get("session_1").get(0))
+                    .getInnerInterpreter();
+    assertEquals(1, server.getInterpreterGroup().getSessionNum());
+    assertEquals(1, server.getInterpreterGroup().get("session_1").size());
+    assertEquals(2, interpreter1.getProperties().size());
+    assertEquals("value_1", interpreter1.getProperty("property_1"));
+
+    // create duplicated Test1Interpreter in session_1
+    server.createInterpreter("group_1", "session_1", Test1Interpreter.class.getName(),
+            intpProperties, "user_1");
+    assertEquals(1, server.getInterpreterGroup().get("session_1").size());
+
+    // create Test2Interpreter in session_1
+    server.createInterpreter("group_1", "session_1", Test2Interpreter.class.getName(),
+            intpProperties, "user_1");
+    assertEquals(2, server.getInterpreterGroup().get("session_1").size());
+
+    // create Test1Interpreter in session_2
+    server.createInterpreter("group_1", "session_2", Test1Interpreter.class.getName(),
+            intpProperties, "user_1");
+    assertEquals(2, server.getInterpreterGroup().getSessionNum());
+    assertEquals(2, server.getInterpreterGroup().get("session_1").size());
+    assertEquals(1, server.getInterpreterGroup().get("session_2").size());
+
+    final RemoteInterpreterContext intpContext = new RemoteInterpreterContext();
+    intpContext.setNoteId("note_1");
+    intpContext.setParagraphId("paragraph_1");
+    intpContext.setGui("{}");
+    intpContext.setNoteGui("{}");
+    intpContext.setLocalProperties(new HashMap<>());
+
+    // single output of SUCCESS
+    RemoteInterpreterResult result = server.interpret("session_1", Test2Interpreter.class.getName(),
+            "COMBO_OUTPUT_SUCCESS", intpContext);
+    System.out.println(new Gson().toJson(result));
+    /*assertEquals("SUCCESS", result.code);
+    assertEquals(2, result.getMsg().size());
+    assertEquals("INTERPRETER_OUT", result.getMsg().get(0).getData());
+    assertEquals("SINGLE_OUTPUT_SUCCESS", result.getMsg().get(1).getData());*/
   }
 
   @Test
@@ -295,7 +352,8 @@ public class RemoteInterpreterServerTest {
 
     @Override
     public InterpreterResult interpret(String st, InterpreterContext context) {
-      return null;
+      return new InterpreterResult(InterpreterResult.Code.SUCCESS);
+      //return null;
     }
 
     @Override
