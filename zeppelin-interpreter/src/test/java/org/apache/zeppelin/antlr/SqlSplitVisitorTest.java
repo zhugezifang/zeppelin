@@ -1,6 +1,7 @@
-package org.apache.zeppelin.util;
+package org.apache.zeppelin.antlr;
 
 import com.google.gson.Gson;
+
 import org.junit.Test;
 
 import java.util.LinkedHashMap;

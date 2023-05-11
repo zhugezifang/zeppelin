@@ -249,19 +249,13 @@
           <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-maven-plugin</artifactId>
         <version>${antlr4.version}</version>
         <configuration>
-          <arguments>
-            <argument>-package</argument>
-            <argument>org.apache.zeppelin.antrl4</argument>
-            <argument>-o</argument>
-            <argument>${project.build.directory}/generated-sources/antlr4</argument>
-          </arguments>
           <visitor>true</visitor>
-          <sourceDirectory>${basedir}/src/main/antrl4</sourceDirectory>
         </configuration>
         <executions>
           <execution>
