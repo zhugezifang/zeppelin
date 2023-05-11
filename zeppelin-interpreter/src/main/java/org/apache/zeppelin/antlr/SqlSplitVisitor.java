@@ -14,21 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.zeppelin.util;
+package org.apache.zeppelin.antlr;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.apache.zeppelin.antrl4.SqlBaseVisitor;
-import org.apache.zeppelin.antrl4.SqlLexer;
-import org.apache.zeppelin.antrl4.SqlParser;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+// TODO: parameterize SqlBaseVisitor
 public class SqlSplitVisitor extends SqlBaseVisitor {
-    private List<String> list = new ArrayList<String>();
+  private List<String> list = new ArrayList<>();
     private boolean flag = true;
 
     private String sourceSQL;
