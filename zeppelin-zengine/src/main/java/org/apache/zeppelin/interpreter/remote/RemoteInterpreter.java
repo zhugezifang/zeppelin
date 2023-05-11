@@ -189,6 +189,7 @@ public class RemoteInterpreter extends Interpreter {
   @Override
   public InterpreterResult interpret(final String st, final InterpreterContext context)
       throws InterpreterException {
+    LOGGER.info("st:\n{}", st);
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("st:\n{}", st);
     }

@@ -441,7 +441,7 @@ public class JDBCInterpreterTest extends BasicJDBCTestCaseAdapter {
   @Test
   public void testSelectQueryMaxResult() throws IOException, InterpreterException {
     Properties properties = new Properties();
-    properties.setProperty("common.max_count", "10");
+    properties.setProperty("common.max_count", "1");
     properties.setProperty("common.max_retry", "3");
     properties.setProperty("default.driver", "org.h2.Driver");
     properties.setProperty("default.url", getJdbcConnection());

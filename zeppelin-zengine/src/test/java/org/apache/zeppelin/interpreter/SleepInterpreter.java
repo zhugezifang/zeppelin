@@ -44,6 +44,7 @@ public class SleepInterpreter extends Interpreter {
 
   @Override
   public InterpreterResult interpret(String st, InterpreterContext context) {
+    System.out.println(st);
     try {
       Thread.sleep(Long.parseLong(st));
       return new InterpreterResult(InterpreterResult.Code.SUCCESS);

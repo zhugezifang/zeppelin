@@ -231,7 +231,8 @@ public class RemoteInterpreterTest extends AbstractInterpreterTest {
     final InterpreterContext context1 = createDummyInterpreterContext();
     // run this dummy interpret method first to launch the RemoteInterpreterProcess to avoid the
     // time overhead of launching the process.
-    interpreter1.interpret("1", context1);
+    System.out.println(interpreter1.getClassName());
+    interpreter1.interpret("10101", context1);
     Thread thread1 = new Thread() {
       @Override
       public void run() {
