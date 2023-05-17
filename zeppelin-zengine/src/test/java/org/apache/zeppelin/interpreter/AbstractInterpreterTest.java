@@ -89,12 +89,18 @@ public abstract class AbstractInterpreterTest {
     NotebookRepo notebookRepo = new InMemoryNotebookRepo();
     NoteManager noteManager = new NoteManager(notebookRepo, conf);
     AuthorizationService authorizationService = new AuthorizationService(noteManager, conf);
+    LOGGER.info("======InterpreterSettingManager=======");
     interpreterSettingManager = new InterpreterSettingManager(conf,
         mock(AngularObjectRegistryListener.class), mock(RemoteInterpreterProcessListener.class), mock(ApplicationEventListener.class));
+    LOGGER.info("======InterpreterFactory=======");
     interpreterFactory = new InterpreterFactory(interpreterSettingManager);
+    LOGGER.info("======Credentials=======");
     Credentials credentials = new Credentials(conf);
+    LOGGER.info("======Notebook=======");
     notebook = new Notebook(conf, authorizationService, notebookRepo, noteManager, interpreterFactory, interpreterSettingManager, credentials);
+    LOGGER.info("======Notebook=======");
     interpreterSettingManager.setNotebook(notebook);
+    LOGGER.info("======setNotebook=======");
   }
 
   @After

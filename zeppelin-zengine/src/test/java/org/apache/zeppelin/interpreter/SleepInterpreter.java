@@ -20,6 +20,8 @@ package org.apache.zeppelin.interpreter;
 
 import org.apache.zeppelin.scheduler.Scheduler;
 import org.apache.zeppelin.scheduler.SchedulerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
@@ -27,6 +29,7 @@ import java.util.Properties;
  * Interpreter that only accept long value and sleep for such period
  */
 public class SleepInterpreter extends Interpreter {
+  protected static final Logger LOGGER = LoggerFactory.getLogger(SleepInterpreter.class);
 
   public SleepInterpreter(Properties property) {
     super(property);
@@ -44,6 +47,7 @@ public class SleepInterpreter extends Interpreter {
 
   @Override
   public InterpreterResult interpret(String st, InterpreterContext context) {
+    LOGGER.info(st);
     System.out.println(st);
     try {
       Thread.sleep(Long.parseLong(st));

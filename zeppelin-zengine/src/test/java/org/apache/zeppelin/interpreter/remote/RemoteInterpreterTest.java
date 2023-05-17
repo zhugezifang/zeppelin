@@ -60,7 +60,9 @@ public class RemoteInterpreterTest extends AbstractInterpreterTest {
   @Before
   public void setUp() throws Exception {
     super.setUp();
+    LOGGER.info("===getInterpreterSettingByName====");
     interpreterSetting = interpreterSettingManager.getInterpreterSettingByName("test");
+    LOGGER.info("===createNote====");
     note1Id = notebook.createNote("/note_1", AuthenticationInfo.ANONYMOUS);
   }
 
@@ -224,15 +226,20 @@ public class RemoteInterpreterTest extends AbstractInterpreterTest {
 
   @Test
   public void testFIFOScheduler() throws InterruptedException, InterpreterException {
+    LOGGER.info("===testFIFOScheduler====");
     interpreterSetting.getOption().setPerUser(InterpreterOption.SHARED);
     // by default SleepInterpreter would use FIFOScheduler
-
+    LOGGER.info("===getInterpreter====");
     final Interpreter interpreter1 = interpreterSetting.getInterpreter("user1", note1Id, "sleep");
+    LOGGER.info("===createDummyInterpreterContext====");
     final InterpreterContext context1 = createDummyInterpreterContext();
     // run this dummy interpret method first to launch the RemoteInterpreterProcess to avoid the
     // time overhead of launching the process.
+    LOGGER.info("111");
+    LOGGER.info("=====name:{}=======",interpreter1.getClassName());
     System.out.println(interpreter1.getClassName());
     interpreter1.interpret("10101", context1);
+    LOGGER.info("222");
     Thread thread1 = new Thread() {
       @Override
       public void run() {

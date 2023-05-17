@@ -198,6 +198,7 @@ public class InterpreterSettingManager implements NoteEventListener, ClusterEven
 
     this.configStorage = configStorage;
     init();
+    LOGGER.info("=====init=====");
   }
 
   public RemoteInterpreterEventServer getInterpreterEventServer() {
@@ -374,12 +375,17 @@ public class InterpreterSettingManager implements NoteEventListener, ClusterEven
               ConfVars.ZEPPELIN_INTERPRETER_INCLUDES.getVarName(),
               ConfVars.ZEPPELIN_INTERPRETER_EXCLUDES.getVarName()));
     }
+    LOGGER.info("======loadJupyterKernelLanguageMap==========");
     loadJupyterKernelLanguageMap();
+    LOGGER.info("======loadInterpreterSettingFromDefaultDir==========");
     loadInterpreterSettingFromDefaultDir(true);
+    LOGGER.info("======loadFromFile==========");
     loadFromFile();
+    LOGGER.info("======saveToFile==========");
     saveToFile();
+    LOGGER.info("======initMetrics==========");
     initMetrics();
-
+    LOGGER.info("======recoveryStorage.init==========");
     // must init Recovery after init of InterpreterSettingManager
     recoveryStorage.init();
   }
