@@ -38,6 +38,7 @@ import { MessageService } from '@zeppelin/services';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotebookParagraphControlComponent implements OnInit, OnChanges {
+  @Input() defaultInterpreterGroup: string;
   @Input() status: string;
   @Input() progress = 0;
   @Input() revisionView = false;
@@ -196,7 +197,7 @@ export class NotebookParagraphControlComponent implements OnInit, OnChanges {
       },
       {
         label: 'Debug',
-        show: true,
+        show: this.defaultInterpreterGroup === 'jdbc' ? true : false,
         disabled: this.isEntireNoteRunning,
         icon: 'api',
         trigger: () => this.toggleEnabled(),
