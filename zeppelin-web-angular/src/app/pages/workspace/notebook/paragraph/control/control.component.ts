@@ -193,6 +193,14 @@ export class NotebookParagraphControlComponent implements OnInit, OnChanges {
         icon: 'api',
         trigger: () => this.toggleEnabled(),
         shortCut: `R (Command)`
+      },
+      {
+        label: 'Debug',
+        show: true,
+        disabled: this.isEntireNoteRunning,
+        icon: 'api',
+        trigger: () => this.toggleEnabled(),
+        shortCut: `G (Command)`
       }
     ];
   }
